@@ -7,9 +7,13 @@
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from starlette.middleware.base import BaseHTTPMiddleware
+from logger import logger
+from middleware import log_middleware
 from db import create_db_and_table
 # from OTUrl import main as oturl_main
 from OTUrl.main import router as oturl_router
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -18,7 +22,15 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(BaseHTTPMiddleware, dispatch=log_middleware)
+# app.add_exception_handler
 app.include_router(oturl_router)
+
+
+@app.get('/')
+async def index() -> dict:
+  logger.info('Hello')
+  return {'message': 'hi'}
 
 # app.include_router(oturl_main.router)
 
