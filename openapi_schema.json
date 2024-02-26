@@ -1,0 +1,231 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/oturl/check_url/{security_token}": {
+      "get": {
+        "summary": "Check Url",
+        "operationId": "check_url_oturl_check_url__security_token__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Security Token"
+            },
+            "name": "security_token",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oturl/new": {
+      "post": {
+        "summary": "Create Oturl",
+        "operationId": "create_oturl_oturl_new_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTUrl"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oturl/{security_token}": {
+      "get": {
+        "summary": "Read Oturl",
+        "operationId": "read_oturl_oturl__security_token__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Security Token"
+            },
+            "name": "security_token",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OTUrl"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "OTUrl": {
+        "properties": {
+          "program": {
+            "type": "string",
+            "title": "Program"
+          },
+          "assessment_type": {
+            "type": "string",
+            "title": "Assessment Type"
+          },
+          "staff": {
+            "type": "string",
+            "title": "Staff",
+            "default": "Test"
+          },
+          "slk": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Slk"
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created Date",
+            "default": "2024-02-26T03:49:34.701547"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Date/Time when the URL becomes invalid"
+          },
+          "is_valid": {
+            "type": "boolean",
+            "title": "Is Valid",
+            "default": true
+          },
+          "is_completed": {
+            "type": "boolean",
+            "title": "Is Completed",
+            "default": false
+          },
+          "security_token": {
+            "type": "string",
+            "title": "Security Token"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "program",
+          "assessment_type",
+          "slk",
+          "expiry_date"
+        ],
+        "title": "OTUrl"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
